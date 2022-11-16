@@ -1,11 +1,44 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { AuthContext } from '../../contexts/AuthProvider';
+import toast from 'react-hot-toast';
+import { GoogleAuthProvider } from 'firebase/auth';
 
 const SignUp = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
+    const { createUser, updateUser, providerLogin } = useContext(AuthContext);
+    const [signUpError, setSignUpError] = useState('');
+    const googleProvider = new GoogleAuthProvider();
+
     const handalSignUp = data => {
-        console.log(data)
+        console.log(data);
+        setSignUpError(' ');
+
+        createUser(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+                toast('Usear careate sussecfully');
+                const userInfo = {
+                    displayName: data.name
+                }
+                updateUser(userInfo)
+                    .then(() => { })
+                    .catch(err => console.log(err));
+            })
+            .catch(error => {
+                console.error(error);
+                setSignUpError(error.message)
+            });
+    }
+    const handaleGoogleSignIn = () => {
+        providerLogin(googleProvider)
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+            })
+            .catch(error => console.error(error))
     }
     return (
         <div className='flex h-[800px] justify-center items-center'>
@@ -19,7 +52,7 @@ const SignUp = () => {
                             <span className="label-text">Name</span>
                         </label>
                         <input type="text"
-                            {...register("name", { required: "Email Address is required" })}
+                            {...register("name", { required: "Name is required" })}
                             placeholder="name"
                             className="input input-bordered w-full" />
                         {errors.name && <p className='text-red-600'>{errors.name?.message}</p>}
@@ -44,17 +77,20 @@ const SignUp = () => {
                             {...register("password", {
                                 required: "Password is required",
                                 minLength: { value: 6, message: 'Password must at lest 6 charecters' },
-                                pattern: { value: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/, message: 'password must be stong' }
+                                pattern: { value: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/, message: 'password must one upperCase, lowerCase and number' }
                             })}
                             placeholder="password"
                             className="input input-bordered w-full" />
                         {errors.password && <p className='text-red-600'>{errors.password?.message}</p>}
                     </div>
+                    {
+                        signUpError && <p className='text-red-600'>{signUpError}</p>
+                    }
                     <input className='btn btn-accent w-full mt-3' value="Sign Up" type="submit" />
                 </form>
                 <p>Already have an account <Link to='/login' className='text-secondary'>Please login</Link></p>
                 <div className="divider">OR</div>
-                <button className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>
+                <button onClick={handaleGoogleSignIn} className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>
             </div>
         </div>
     );
