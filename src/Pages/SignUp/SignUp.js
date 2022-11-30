@@ -1,15 +1,25 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../contexts/AuthProvider';
 import toast from 'react-hot-toast';
 import { GoogleAuthProvider } from 'firebase/auth';
+import useToken from '../../hooks/useToken';
+
 
 const SignUp = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const { createUser, updateUser, providerLogin } = useContext(AuthContext);
     const [signUpError, setSignUpError] = useState('');
     const googleProvider = new GoogleAuthProvider();
+
+    const [createdUserEmail, setCreatedUserEmail] = useState('');
+    const [token] = useToken(createdUserEmail);
+    const navigate = useNavigate();
+
+    if (token) {
+        navigate('/');
+    }
 
     const handalSignUp = data => {
         console.log(data);
@@ -19,12 +29,16 @@ const SignUp = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user)
-                toast('Usear careate sussecfully');
+                toast.success('Usear careate sussecfully');
                 const userInfo = {
                     displayName: data.name
                 }
+
                 updateUser(userInfo)
-                    .then(() => { })
+                    .then(() => {
+                        saveUser(data.name, data.email);
+
+                    })
                     .catch(err => console.log(err));
             })
             .catch(error => {
@@ -40,6 +54,24 @@ const SignUp = () => {
             })
             .catch(error => console.error(error))
     }
+
+    const saveUser = (name, email) => {
+        const user = { name, email };
+        fetch(`http://localhost:5000/users`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setCreatedUserEmail(email);
+
+            })
+    }
+
+
     return (
         <div className='flex h-[800px] justify-center items-center'>
             <div className='w-96 p-7'>

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { format } from 'date-fns';
+import { AuthContext } from '../../../contexts/AuthProvider';
+import toast from 'react-hot-toast';
 
-const BookingModal = ({ tretment, setTrerment, selectedDate }) => {
-    const { name, slots } = tretment;
+const BookingModal = ({ tretment, setTrerment, selectedDate, refetch }) => {
+    const { name: tretmentName, slots } = tretment;
     const date = format(selectedDate, 'PPPP');
+    const { user } = useContext(AuthContext);
 
     const handaleBooking = event => {
         event.preventDefault();
@@ -15,15 +18,35 @@ const BookingModal = ({ tretment, setTrerment, selectedDate }) => {
 
         const booking = {
             appointmentDate: date,
-            tretment: name,
+            tretment: tretmentName,
             patient: name,
             slot,
             email,
             phone
         }
-        alert('Booking successful')
-        console.log(booking);
-        setTrerment(null);
+
+        fetch('http://localhost:5000/bookings', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(booking)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.acknowledged) {
+                    setTrerment(null);
+                    toast.success('Booking Confirmed');
+                    refetch();
+                }
+                else {
+                    toast.error(data.message);
+                }
+
+            })
+        // console.log(booking);
+
     }
     return (
         <div>
@@ -31,7 +54,7 @@ const BookingModal = ({ tretment, setTrerment, selectedDate }) => {
             <div className="modal">
                 <div className="modal-box relative">
                     <label htmlFor="booking-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <h3 className="text-lg font-bold mb-10">{name}</h3>
+                    <h3 className="text-lg font-bold mb-10">{tretmentName}</h3>
 
                     <form onSubmit={handaleBooking}>
                         <input type="text" disabled value={date} className="input input-bordered  w-full mb-3" />
@@ -44,8 +67,8 @@ const BookingModal = ({ tretment, setTrerment, selectedDate }) => {
                             }
 
                         </select>
-                        <input name="name" type="text" placeholder="Your Name" className="input input-bordered  w-full mb-3" />
-                        <input name="email" type="email" placeholder="Your Email" className="input input-bordered  w-full mb-3" />
+                        <input name="name" type="text" defaultValue={user?.displayName} disabled placeholder="Your Name" className="input input-bordered  w-full mb-3" />
+                        <input name="email" type="email" defaultValue={user?.email} disabled placeholder="Your Email" className="input input-bordered  w-full mb-3" />
                         <input name="phone" type="phone" placeholder="Your phone" className="input input-bordered  w-full mb-3" />
                         <input type="submit" value="Submit" className='w-full btn btn-accent' />
                     </form>
