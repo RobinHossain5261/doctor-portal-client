@@ -78,7 +78,6 @@ const SignUp = () => {
                 <h2 className='text-2xl fot-bold text-center'>Sign Up</h2>
                 <form onSubmit={handleSubmit(handalSignUp)}>
 
-
                     <div className="form-control w-full">
                         <label className="label">
                             <span className="label-text">Name</span>
