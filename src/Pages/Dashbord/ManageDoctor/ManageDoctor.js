@@ -1,9 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import DeleteModal from '../../Shared/DeleteModal/DeleteModal';
 import Loading from '../../Shared/Loading/Loading';
 
 const ManageDoctor = () => {
-    const { data: doctors = [], isLoading } = useQuery({
+    const [deleteDoctor, setDeleteDoctor] = useState(null);
+
+
+
+    const closeModal = () => {
+        setDeleteDoctor(null);
+    }
+
+    const { data: doctors = [], isLoading, refetch } = useQuery({
         queryKey: ['doctors'],
         queryFn: async () => {
             try {
@@ -20,6 +30,22 @@ const ManageDoctor = () => {
             }
         }
     })
+
+    const handleDeleteDoctor = doctor => {
+        fetch(`http://localhost:5000/doctors/${doctor._id}`, {
+            method: 'DELETE',
+            headers: {
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.deletedCount > 0) {
+                    toast.success('Delete successfully.');
+                    refetch();
+                }
+            })
+    }
 
     if (isLoading) {
         return <Loading></Loading>
@@ -61,12 +87,24 @@ const ManageDoctor = () => {
                                     </td>
                                     <td className='font-semibold'>{doctor.specialty}</td>
                                     <td>{doctor.email}</td>
-                                    <td><button className="btn btn-error btn-xs">Delete</button> </td>
+                                    <td>
+                                        <label onClick={() => setDeleteDoctor(doctor)} htmlFor="delete-modal" className="btn btn-error btn-xs">Delete</label>
+                                    </td>
                                 </tr>)
                         }
                     </tbody>
                 </table>
             </div>
+            {
+                deleteDoctor &&
+                <DeleteModal
+                    title={'Are you sure want to delete'}
+                    message={`If you delete ${deleteDoctor.name}. It can't be undone.`}
+                    closeModal={closeModal}
+                    successAction={handleDeleteDoctor}
+                    modalData={deleteDoctor}
+                ></DeleteModal>
+            }
         </div>
     );
 };
