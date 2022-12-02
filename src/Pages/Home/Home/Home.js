@@ -6,8 +6,10 @@ import DentalCare from '../DentalCare/DentalCare';
 import MakeApponment from '../MakeAppoinment/MakeApponment';
 import Testimonial from "../Testimonial/Testimonial";
 import Contact from '../Contact/Contact';
+import useTitle from '../../../hooks/useTitle';
 
 const Home = () => {
+    useTitle('Home');
     return (
         <div>
             <Banner></Banner>

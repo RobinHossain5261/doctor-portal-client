@@ -5,6 +5,7 @@ import { AuthContext } from '../../contexts/AuthProvider';
 import toast from 'react-hot-toast';
 import { GoogleAuthProvider } from 'firebase/auth';
 import useToken from '../../hooks/useToken';
+import useTitle from '../../hooks/useTitle';
 
 
 const SignUp = () => {
@@ -12,6 +13,8 @@ const SignUp = () => {
     const { createUser, updateUser, providerLogin } = useContext(AuthContext);
     const [signUpError, setSignUpError] = useState('');
     const googleProvider = new GoogleAuthProvider();
+
+    useTitle('SignUp');
 
     const [createdUserEmail, setCreatedUserEmail] = useState('');
     const [token] = useToken(createdUserEmail);

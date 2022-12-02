@@ -1,12 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import useTitle from '../../../hooks/useTitle';
 import DeleteModal from '../../Shared/DeleteModal/DeleteModal';
 import Loading from '../../Shared/Loading/Loading';
 
 const ManageDoctor = () => {
     const [deleteDoctor, setDeleteDoctor] = useState(null);
 
+    useTitle('ManageDoctor');
 
 
     const closeModal = () => {
