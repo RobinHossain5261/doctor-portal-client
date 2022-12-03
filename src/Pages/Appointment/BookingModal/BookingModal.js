@@ -2,11 +2,14 @@ import React, { useContext } from 'react';
 import { format } from 'date-fns';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const BookingModal = ({ tretment, setTrerment, selectedDate, refetch }) => {
     const { name: tretmentName, slots, price } = tretment;
     const date = format(selectedDate, 'PPPP');
     const { user } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const handaleBooking = event => {
         event.preventDefault();
@@ -40,6 +43,7 @@ const BookingModal = ({ tretment, setTrerment, selectedDate, refetch }) => {
                     setTrerment(null);
                     toast.success('Booking Confirmed');
                     refetch();
+                    navigate('/dashbord');
                 }
                 else {
                     toast.error(data.message);

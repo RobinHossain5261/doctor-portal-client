@@ -18,7 +18,7 @@ const DisplayError = () => {
             <p className='text-red-500'>Somtheings went wrong!!!</p>
             <p className='text-red-400'>{error.statusText || error.message}</p>
             <h2 className="text-3xl"> Please
-                <Link onClick={handaleLogOut} className='btn btn-accent'>Log Out</Link>
+                <Link to='/login' onClick={handaleLogOut} className='btn btn-accent'>Log Out</Link>
             </h2>
         </div>
     );

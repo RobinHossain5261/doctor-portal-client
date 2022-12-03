@@ -11,15 +11,15 @@ const NavBar = () => {
             .catch(error => console.log(error))
     }
     const menuItem = <>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/appointment">Appointment</Link></li>
+        <li><Link className='hover:text-primary' to="/">Home</Link></li>
+        <li><Link className='hover:text-primary' to="/appointment">Appointment</Link></li>
         {
             user?.uid ?
                 <>
-                    <li><Link to="/dashbord">Dashbord</Link></li>
-                    <li><Link onClick={handaleLogOut} className='btn btn-accent'>Log Out</Link></li>
+                    <li><Link className='hover:text-primary' to="/dashbord">Dashbord</Link></li>
+                    <li><Link onClick={handaleLogOut} className='btn btn-accent hover:btn-primary'>Log Out</Link></li>
                 </>
-                : <li><Link to="/login">Log In</Link></li>
+                : <li><Link className='hover:text-primary' to="/login">Log In</Link></li>
         }
     </>
     return (
