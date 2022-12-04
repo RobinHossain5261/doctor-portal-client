@@ -1,10 +1,10 @@
-### Project Name: Doctor_Portal
+# Project Name: Doctor_Portal
 
 ## Live-link: https://doctors-portal-b6977.web.app/
 
-# Server-repository-link: https://github.com/RobinHossain5261/doctor-portal-server
+## Server-repository-link: https://github.com/RobinHossain5261/doctor-portal-server
 
-# Projects works
+### Projects works
 * Used React Router
 * Used Firebase
 * Used tailwind
