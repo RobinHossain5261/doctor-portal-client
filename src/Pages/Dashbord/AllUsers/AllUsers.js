@@ -9,13 +9,13 @@ const AllUsers = () => {
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/users');
+            const res = await fetch('https://doctors-portal-server-vert.vercel.app/users');
             const data = await res.json();
             return data;
         }
     })
     const handaleMakeAdmin = id => {
-        fetch(`http://localhost:5000/users/admin/${id}`, {
+        fetch(`https://doctors-portal-server-vert.vercel.app/users/admin/${id}`, {
             method: 'PUT',
             headers: {
                 authorization: `bearer ${localStorage.getItem('accessToken')}`
@@ -34,7 +34,7 @@ const AllUsers = () => {
 
 
     const handleDelete = id => {
-        fetch(`http://localhost:5000/users/${id}`, {
+        fetch(`https://doctors-portal-server-vert.vercel.app/users/${id}`, {
             method: 'DELETE',
             headers: {
                 authorization: `bearer ${localStorage.getItem('accessToken')}`

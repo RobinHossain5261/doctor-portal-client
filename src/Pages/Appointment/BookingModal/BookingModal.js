@@ -2,14 +2,12 @@ import React, { useContext } from 'react';
 import { format } from 'date-fns';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+
 
 const BookingModal = ({ tretment, setTrerment, selectedDate, refetch }) => {
     const { name: tretmentName, slots, price } = tretment;
     const date = format(selectedDate, 'PPPP');
     const { user } = useContext(AuthContext);
-
-    const navigate = useNavigate();
 
     const handaleBooking = event => {
         event.preventDefault();
@@ -29,7 +27,7 @@ const BookingModal = ({ tretment, setTrerment, selectedDate, refetch }) => {
             price
         }
 
-        fetch('http://localhost:5000/bookings', {
+        fetch('https://doctors-portal-server-vert.vercel.app/bookings', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -43,7 +41,6 @@ const BookingModal = ({ tretment, setTrerment, selectedDate, refetch }) => {
                     setTrerment(null);
                     toast.success('Booking Confirmed');
                     refetch();
-                    navigate('/dashbord');
                 }
                 else {
                     toast.error(data.message);

@@ -4,7 +4,6 @@ import Main from "../../Layout/Main";
 import Appointment from "../../Pages/Appointment/Appointment/Appointment";
 import AddDoctor from "../../Pages/Dashbord/AddDoctor/AddDoctor";
 import AllUsers from "../../Pages/Dashbord/AllUsers/AllUsers";
-import Dashbord from "../../Pages/Dashbord/Dashbord/Dashbord";
 import ManageDoctor from "../../Pages/Dashbord/ManageDoctor/ManageDoctor";
 import MyAppoinment from "../../Pages/Dashbord/MyAppoinment/MyAppoinment";
 import Payment from "../../Pages/Dashbord/Payment/Payment";
@@ -63,7 +62,7 @@ export const router = createBrowserRouter([
             {
                 path: '/dashbord/payment/:id',
                 element: <Payment></Payment>,
-                loader: ({ params }) => fetch(`http://localhost:5000/bookings/${params.id}`)
+                loader: ({ params }) => fetch(`https://doctors-portal-server-vert.vercel.app/bookings/${params.id}`)
             }
         ]
     }

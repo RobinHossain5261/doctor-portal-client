@@ -17,9 +17,12 @@ const NavBar = () => {
             user?.uid ?
                 <>
                     <li><Link className='hover:text-primary' to="/dashbord">Dashbord</Link></li>
-                    <li><Link onClick={handaleLogOut} className='btn btn-accent hover:btn-primary'>Log Out</Link></li>
+                    <li><Link onClick={handaleLogOut} className="btn btn-primary bg-gradient-to-r from-primary to-secondary text-white font-bold mt-2 lg:ml-3 rounded-xl hover:from-cyan-500 hover:to-emerald-500">Log Out</Link></li>
                 </>
-                : <li><Link className='hover:text-primary' to="/login">Log In</Link></li>
+                : <>
+                    <li><Link className="btn btn-primary bg-gradient-to-r from-primary to-secondary text-white font-bold ml-3 rounded-xl hover:from-cyan-500 hover:to-emerald-500" to="/login">Log In</Link></li>
+                    <li><Link className="btn btn-primary bg-gradient-to-r from-primary to-secondary text-white font-bold ml-3 rounded-xl hover:from-cyan-500 hover:to-emerald-500" to="/signUp">Sign Up</Link></li>
+                </>
         }
     </>
     return (

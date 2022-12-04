@@ -12,7 +12,7 @@ const AppointmentOption = ({ option, setTrerment }) => {
                 <div className="card-actions justify-center">
                     <label htmlFor="booking-modal"
                         disabled={slots.length === 0}
-                        className='btn bg-gradient-to-r from-primary to-secondary  text-white font-bold'
+                        className="btn btn-primary bg-gradient-to-r from-primary to-secondary text-white font-bold hover:from-cyan-500 hover:to-emerald-500"
                         onClick={() => setTrerment(option)}
                     > Book Appointment</label>
                 </div>

@@ -4,14 +4,14 @@ import appoinment from '../../../assets/images/appointment.png';
 
 const Contact = () => {
     return (
-        <div className='py-10'
+        <div className='py-10 rounded-xl'
             style={{
                 background: `url(${appoinment})`
             }}
         >
             <div className='text-center'>
                 <h3 className="text-xl text-primary font-bold">Contact Us</h3>
-                <h2 className='text-3xl font-bold'>Stay connected with us</h2>
+                <h2 className='text-3xl font-bold text-white'>Stay connected with us</h2>
             </div>
             <form>
                 <div className='border border-primary rounded-xl lg:w-[450px] mx-auto mt-6 p-6'>

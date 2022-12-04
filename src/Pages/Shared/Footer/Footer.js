@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import footer from '../../../assets/images/footer.png';
 const Footer = () => {
     return (
-        <footer className=" p-10 bg-base-200 text-base-content mt-10">
+        <footer className=" p-10 bg-base-200 text-base-content mt-10 rounded-xl">
 
             <div className='footer'
                 style={{

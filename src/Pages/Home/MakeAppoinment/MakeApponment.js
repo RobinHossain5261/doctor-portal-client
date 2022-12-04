@@ -6,7 +6,7 @@ import PrimaryButton from '../../../component/PrimaryButton/PrimaryButton';
 const MakeApponment = () => {
     return (
 
-        <div className="hero mt-40 bg-base-200"
+        <div className="hero mt-40 bg-base-200 rounded-xl"
             style={{
                 background: `url(${apponment})`
             }}
